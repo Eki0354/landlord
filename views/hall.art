@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+  <title>大厅</title>
+  <link rel="shortcut icon" href="/images/YuI.ico" type="image/x-icon" />
+  <script src="/js/template-web.js"></script>
+  <script src="/js/jquery-3.4.1.min.js"></script>
+  <script src="/js/hall.js"></script>
+</head>
+
+<body>
+  <div class="room">
+    {{@userInfo._id}}
+  </div>
+</body>
+
+</html>

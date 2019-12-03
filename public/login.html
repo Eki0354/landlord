@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+  <title>登录</title>
+  <link rel="shortcut icon" href="images/YuI.ico" type="image/x-icon" />
+  <link href="css/bootstrap.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="css/login.css" />
+  <style>
+    .bd-placeholder-img {
+      font-size: 1.125rem;
+      text-anchor: middle;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+    }
+
+    @media (min-width: 768px) {
+      .bd-placeholder-img-lg {
+        font-size: 3.5rem;
+      }
+    }
+  </style>
+  <script src="js/jquery-3.4.1.min.js"></script>
+  <script src="js/bootstrap.min.js"></script>
+</head>
+
+<body>
+  <form class="form-signin" action="/user/login" method='post'>
+    <div class="text-center mb-4">
+      <img class="mb-4" src="images/YuI.png" alt="" width="72" height="72" />
+      <h1 class="h3 mb-3 font-weight-normal">请先登录</h1>
+    </div>
+    <div class="form-label-group">
+      <input type="text" id="inputAccount" class="form-control" placeholder="Account" required="" autofocus="" />
+      <label for="inputEmail">Account</label>
+    </div>
+    <div class="form-label-group">
+      <input type="password" id="inputPassword" class="form-control" placeholder="Password" required="" />
+      <label for="inputPassword">Password</label>
+    </div>
+    <div class="checkbox mb-3">
+      <label> <input type="checkbox" value="remember-me" /> 记住我 </label>
+    </div>
+    <button class="btn btn-lg btn-primary btn-block" id="btn-login" type="button">
+      登录
+    </button>
+    <br />
+    <div class="box-flex-between">
+      <a id="link-register-guest" href="/game/hall">游客身份访问</a>
+      <a id="link-register-user" href="jasvascript:;" data-toggle="modal" data-target="#registerModal">
+        现在注册
+      </a>
+    </div>
+    <p class="text-center mt-5 mb-3 text-muted">©eki 2019</p>
+  </form>
+  <div class="modal fade" id="registerModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">注册</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form>
+            <div class="form-group">
+              <label for="recipient-name" class="col-form-label">账号:</label>
+              <input type="text" class="form-control" id="recipient-name" />
+            </div>
+            <div class="form-group">
+              <label for="message-text" class="col-form-label">密码:</label>
+              <input type="password" class="form-control" id="message-text"></input>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">
+            关闭
+          </button>
+          <button type="button" class="btn btn-primary">注册</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script>
+    $(function () {
+      $("#btn-login").on("click", function () {
+        let account = $("#inputAccount").val();
+        let pwd = $("#inputPassword").val();
+        let accountReg = /[A-Za-z\d_]{6,20}/;
+        if (pwd && pwd.length && accountReg.test(account)) {
+          $.ajax({
+            url: "/user/login",
+            type: "post",
+            success: (res, status) => {
+              console.log(res);
+            }
+          });
+        } else {
+          alert("请输入正确格式的账号密码");
+        }
+      });
+    });
+
+    function register(userinfo) {
+      userinfo = userinfo || getNewGuest();
+      $.ajax({
+        url: '/user/register',
+        type: 'post',
+        contentType: 'application/json;charset=UTF8',
+        data: JSON.stringify(userinfo),
+        success: (res, status) => {
+          console.log(res);
+        },
+        error: xhr => console.log(xhr)
+      })
+    }
+  </script>
+</body>
+
+</html>

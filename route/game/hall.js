@@ -5,24 +5,22 @@ const {
 } = require('../../model/user');
 
 hallRouter.get('/', async (req, res) => {
-  if (req.query.role == '0') {
-    res.redirect("/hall.html");
-  } else {
-    let {
+  let {
+    _id
+  } = req.session;
+  if (_id) {
+    let user = await User.findOne({
       _id
-    } = req.session;
-    if (_id) {
-      let user = await User.findOne({
-        _id
+    });
+    if (user) {
+      res.render('./hall.art', {
+        userInfo: user
       });
-      if (user) {
-        res.render('../../views/hall.art', {
-          userInfo
-        });
-      } else {
-        res.redirect('/user/register');
-      }
+    } else {
+      res.redirect('/user/register');
     }
+  } else {
+    res.redirect('/user/register');
   }
 })
 
